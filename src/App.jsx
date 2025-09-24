@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-
-// Config
-import { auth } from './config/supabase';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 // Layout
 import DashboardLayout from './layouts/dashboard/DashboardLayout';
@@ -20,198 +19,130 @@ import HostelPage from './pages/HostelPage';
 import NotificationsPage from './pages/NotificationsPage';
 import TransportPage from './pages/TransportPage';
 import SupportPage from './pages/SupportPage';
+import LandingPage from './pages/LandingPage';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-
-  useEffect(() => {
-    checkUser();
-  }, []);
-
-  const checkUser = async () => {
-    try {
-      const { session } = await auth.getSession();
-      setIsLoggedIn(!!session);
-    } catch (error) {
-      console.error('Error checking user session:', error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const { data, error } = await auth.signIn({ email, password });
-      if (error) throw error;
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Error logging in:', error.message);
-      // Here you would typically show an error message to the user
-    }
-  };
-
   return (
     <BrowserRouter basename={import.meta.env.DEV ? '/' : '/sih-erp-prototype'}>
-      {!isLoggedIn ? (
-        <div className="min-h-screen flex items-center justify-center bg-background">
-          <div className="w-full max-w-[1200px] h-screen md:h-auto md:aspect-[16/9] flex rounded-none md:rounded-2xl overflow-hidden shadow-card">
-            {/* Left Side - Hero Image */}
-            <div className="hidden md:flex md:w-1/2 bg-primary-600 items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/90 to-primary-700/90" />
-              <div className="relative z-10 text-white p-12 max-w-lg">
-                <h1 className="text-4xl font-display font-bold mb-6">
-                  Welcome to Solvix ERP
-                </h1>
-                <p className="text-lg text-white/90 mb-8">
-                  Your complete education management solution. Access all your academic resources, track progress, and manage your education journey in one place.
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <span className="text-white/90">Seamless Academic Management</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                    <span className="text-white/90">Real-time Progress Tracking</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <span className="text-white/90">Secure & Reliable Platform</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side - Login Form */}
-            <div className="w-full md:w-1/2 bg-white p-8 md:p-12 flex flex-col justify-center">
-              <div className="max-w-md w-full mx-auto">
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl font-display font-bold text-gray-900 mb-2">Login to Your Account</h2>
-                  <p className="text-sm text-gray-600">Enter your credentials to access your dashboard</p>
-                </div>
-
-                <form onSubmit={handleLogin} className="space-y-6">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                      Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
-                        placeholder="Enter your password"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                      >
-                        {showPassword ? (
-                          <EyeSlashIcon className="h-5 w-5" />
-                        ) : (
-                          <EyeIcon className="h-5 w-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        id="remember-me"
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                        className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                        Remember me
-                      </label>
-                    </div>
-                    <button type="button" className="text-sm font-medium text-primary-600 hover:text-primary-500">
-                      Forgot password?
-                    </button>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-primary-500 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
-                  >
-                    Sign In
-                  </button>
-
-                  <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-600">
-                      Don't have an account?{' '}
-                      <button type="button" className="font-medium text-primary-600 hover:text-primary-500">
-                        Contact your administrator
-                      </button>
-                    </p>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <DashboardLayout>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/students" element={<StudentsPage />} />
-            <Route path="/attendance" element={<AttendancePage />} />
-            <Route path="/timetable" element={<TimetablePage />} />
-            <Route path="/exams-results" element={<ExamsResultsPage />} />
-            <Route path="/fees-payments" element={<FeesPaymentsPage />} />
-            <Route path="/library" element={<LibraryPage />} />
-            <Route path="/hostel" element={<HostelPage />} />
-            <Route path="/notifications" element={<NotificationsPage />} />
-            <Route path="/transport" element={<TransportPage />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </DashboardLayout>
-      )}
+      <Toaster position='top-right' />
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route 
+            path='/dashboard' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <DashboardPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/students' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <StudentsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/attendance' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <AttendancePage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/timetable' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <TimetablePage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/exams-results' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <ExamsResultsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/fees-payments' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <FeesPaymentsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/library' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <LibraryPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/hostel' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <HostelPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/notifications' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <NotificationsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/transport' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <TransportPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/support' 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <SupportPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
-}
 
-export default App
+export default App;
