@@ -11,11 +11,11 @@ export default function RegisterForm() {
   
   // Form state
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "student", // Default role
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'student', // Default role
     agreeToTerms: false
   });
   
@@ -25,12 +25,12 @@ export default function RegisterForm() {
   
   // Form errors state
   const [errors, setErrors] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: "",
-    general: ""
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    agreeToTerms: '',
+    general: ''
   });
 
   // Handle input change
@@ -38,14 +38,14 @@ export default function RegisterForm() {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === 'checkbox' ? checked : value
     });
     
     // Clear error when field is modified
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: ""
+        [name]: ''
       });
     }
   };
@@ -54,53 +54,53 @@ export default function RegisterForm() {
   const validateForm = () => {
     let valid = true;
     const newErrors = { 
-      fullName: "", 
-      email: "", 
-      password: "", 
-      confirmPassword: "", 
-      agreeToTerms: "",
-      general: ""
+      fullName: '', 
+      email: '', 
+      password: '', 
+      confirmPassword: '', 
+      agreeToTerms: '',
+      general: '' 
     };
     
     // Full name validation
     if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
+      newErrors.fullName = 'Full name is required';
       valid = false;
     }
     
     // Email validation
     if (!formData.email) {
-      newErrors.email = "Email is required";
+      newErrors.email = 'Email is required';
       valid = false;
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
-      newErrors.email = "Invalid email address";
+      newErrors.email = 'Invalid email address';
       valid = false;
     }
     
     // Password validation
     if (!formData.password) {
-      newErrors.password = "Password is required";
+      newErrors.password = 'Password is required';
       valid = false;
     } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+      newErrors.password = 'Password must be at least 8 characters';
       valid = false;
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = "Password must contain at least one uppercase letter, one lowercase letter, and one number";
+      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
       valid = false;
     }
     
     // Confirm password validation
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
+      newErrors.confirmPassword = 'Please confirm your password';
       valid = false;
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = 'Passwords do not match';
       valid = false;
     }
     
     // Terms agreement validation
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = "You must agree to the terms and conditions";
+      newErrors.agreeToTerms = 'You must agree to the terms and conditions';
       valid = false;
     }
     
@@ -117,7 +117,7 @@ export default function RegisterForm() {
     
     try {
       setIsLoading(true);
-      setErrors({ ...errors, general: "" });
+      setErrors({ ...errors, general: '' });
       
       // Register user
       const { error } = await register(
@@ -130,13 +130,13 @@ export default function RegisterForm() {
       if (error) throw error;
       
       // Show success message and redirect to login
-      toast.success("Registration successful! Please check your email for verification.");
-      navigate("/login");
+      toast.success('Registration successful! Please check your email for verification.');
+      navigate('/login');
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error('Registration error:', error);
       setErrors({
         ...errors,
-        general: error.message || "Failed to register"
+        general: error.message || 'Failed to register'
       });
     } finally {
       setIsLoading(false);
@@ -178,7 +178,7 @@ export default function RegisterForm() {
             value={formData.fullName}
             onChange={handleChange}
             className={`w-full px-4 py-3 rounded-lg border ${
-              errors.fullName ? "border-red-500" : "border-gray-300"
+              errors.fullName ? 'border-red-500' : 'border-gray-300'
             } focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200`}
             placeholder="John Doe"
             disabled={isLoading}
@@ -202,7 +202,7 @@ export default function RegisterForm() {
             value={formData.email}
             onChange={handleChange}
             className={`w-full px-4 py-3 rounded-lg border ${
-              errors.email ? "border-red-500" : "border-gray-300"
+              errors.email ? 'border-red-500' : 'border-gray-300'
             } focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200`}
             placeholder="you@example.com"
             disabled={isLoading}
@@ -246,9 +246,9 @@ export default function RegisterForm() {
               value={formData.password}
               onChange={handleChange}
               className={`w-full px-4 py-3 rounded-lg border ${
-                errors.password ? "border-red-500" : "border-gray-300"
+                errors.password ? 'border-red-500' : 'border-gray-300'
               } focus:ring-2 focus:ring-primary-500 focus:border-primary-500 pr-10 transition-all duration-200`}
-              placeholder=""
+              placeholder="••••••••"
               disabled={isLoading}
               required
             />
@@ -287,9 +287,9 @@ export default function RegisterForm() {
               value={formData.confirmPassword}
               onChange={handleChange}
               className={`w-full px-4 py-3 rounded-lg border ${
-                errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
               } focus:ring-2 focus:ring-primary-500 focus:border-primary-500 pr-10 transition-all duration-200`}
-              placeholder=""
+              placeholder="••••••••"
               disabled={isLoading}
               required
             />
@@ -339,7 +339,7 @@ export default function RegisterForm() {
         <button
           type="submit"
           className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors ${
-            isLoading ? "opacity-70 cursor-not-allowed" : ""
+            isLoading ? 'opacity-70 cursor-not-allowed' : ''
           }`}
           disabled={isLoading}
         >
@@ -352,14 +352,14 @@ export default function RegisterForm() {
               Creating Account...
             </>
           ) : (
-            "Create Account"
+            'Create Account'
           )}
         </button>
         
         {/* Login Link */}
         <div className="text-center mt-4">
           <span className="text-sm text-gray-600">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-500">
               Sign in
             </Link>
@@ -367,5 +367,6 @@ export default function RegisterForm() {
         </div>
       </form>
     </div>
-  );
+  )
+}
 }

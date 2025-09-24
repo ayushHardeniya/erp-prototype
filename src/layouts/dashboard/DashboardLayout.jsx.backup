@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import {
   HomeIcon,
   UserGroupIcon,
@@ -17,23 +17,23 @@ import {
   Cog6ToothIcon,
   UserIcon,
   ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/outline";
-import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+} from '@heroicons/react/24/outline';
+import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 // Define navigation items with access control
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Students", href: "/students", icon: UserGroupIcon, allowedRoles: ["faculty", "admin"] },
-  { name: "Attendance", href: "/attendance", icon: AcademicCapIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Timetable", href: "/timetable", icon: CalendarIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Exams & Results", href: "/exams-results", icon: ClipboardDocumentListIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Fees & Payments", href: "/fees-payments", icon: CurrencyRupeeIcon, allowedRoles: ["student", "admin"] },
-  { name: "Library", href: "/library", icon: BookOpenIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Hostel", href: "/hostel", icon: BuildingOffice2Icon, allowedRoles: ["student", "admin"] },
-  { name: "Notifications", href: "/notifications", icon: BellIcon, allowedRoles: ["student", "faculty", "admin"] },
-  { name: "Transport", href: "/transport", icon: TruckIcon, allowedRoles: ["student", "admin"] },
-  { name: "Support", href: "/support", icon: LifebuoyIcon, allowedRoles: ["student", "faculty", "admin"] },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Students', href: '/students', icon: UserGroupIcon, allowedRoles: ['faculty', 'admin'] },
+  { name: 'Attendance', href: '/attendance', icon: AcademicCapIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Timetable', href: '/timetable', icon: CalendarIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Exams & Results', href: '/exams-results', icon: ClipboardDocumentListIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Fees & Payments', href: '/fees-payments', icon: CurrencyRupeeIcon, allowedRoles: ['student', 'admin'] },
+  { name: 'Library', href: '/library', icon: BookOpenIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Hostel', href: '/hostel', icon: BuildingOffice2Icon, allowedRoles: ['student', 'admin'] },
+  { name: 'Notifications', href: '/notifications', icon: BellIcon, allowedRoles: ['student', 'faculty', 'admin'] },
+  { name: 'Transport', href: '/transport', icon: TruckIcon, allowedRoles: ['student', 'admin'] },
+  { name: 'Support', href: '/support', icon: LifebuoyIcon, allowedRoles: ['student', 'faculty', 'admin'] },
 ];
 
 export default function DashboardLayout({ children }) {
@@ -63,17 +63,17 @@ export default function DashboardLayout({ children }) {
   );
   
   // Format the date for header display
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   }).format(currentTime);
   
   // Format time
   const formattedTime = currentTime.toLocaleTimeString([], { 
-    hour: "2-digit", 
-    minute: "2-digit",
+    hour: '2-digit', 
+    minute: '2-digit',
     hour12: true
   });
 
@@ -82,7 +82,7 @@ export default function DashboardLayout({ children }) {
       {/* Mobile sidebar overlay */}
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-opacity lg:hidden ${
-          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setSidebarOpen(false)}
       />
@@ -90,7 +90,7 @@ export default function DashboardLayout({ children }) {
       {/* Sidebar for mobile */}
       <div
         className={`fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform transition-transform lg:hidden z-50 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
@@ -133,16 +133,16 @@ export default function DashboardLayout({ children }) {
                 to={item.href}
                 className={`group flex items-center px-3 py-3 text-base font-medium rounded-lg transition-colors ${
                   isActive(item.href)
-                    ? "bg-primary-50 text-primary-600"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                    ? 'bg-primary-50 text-primary-600'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
                 <item.icon
                   className={`mr-4 h-5 w-5 ${
                     isActive(item.href)
-                      ? "text-primary-600"
-                      : "text-gray-400 group-hover:text-primary-500"
+                      ? 'text-primary-600'
+                      : 'text-gray-400 group-hover:text-primary-500'
                   }`}
                   aria-hidden="true"
                 />
@@ -212,15 +212,15 @@ export default function DashboardLayout({ children }) {
                 to={item.href}
                 className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors ${
                   isActive(item.href)
-                    ? "bg-primary-50 text-primary-600"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                    ? 'bg-primary-50 text-primary-600'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
                 }`}
               >
                 <item.icon
                   className={`mr-3 h-5 w-5 ${
                     isActive(item.href)
-                      ? "text-primary-600"
-                      : "text-gray-400 group-hover:text-primary-500"
+                      ? 'text-primary-600'
+                      : 'text-gray-400 group-hover:text-primary-500'
                   }`}
                   aria-hidden="true"
                 />
@@ -247,19 +247,33 @@ export default function DashboardLayout({ children }) {
             </Link>
             <button
               onClick={logout}
-              className="w-full text-left group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-primary-600"
+              className="w-full group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-primary-600"
             >
               <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-primary-500" />
               Sign out
             </button>
           </div>
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+              >
+                <item.icon
+                  className={`mr-3 h-6 w-6 ${
+                    isActive(item.href)
+                      ? 'text-primary-600'
+                      : 'text-gray-400 group-hover:text-gray-500'
+                  }`}
+                />
+                {item.name}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-72 flex flex-col flex-1">
-        {/* Top header */}
-        <header className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
+      <div className="lg:pl-64 flex flex-col flex-1">
+        {/* Top navigation */}
+        <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
           <button
             type="button"
             className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 lg:hidden"
@@ -268,29 +282,28 @@ export default function DashboardLayout({ children }) {
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon className="h-6 w-6" />
           </button>
-          
-          {/* Header content */}
           <div className="flex-1 px-4 flex justify-between">
             <div className="flex-1 flex items-center">
-              <div className="ml-4">
-                <h1 className="text-lg font-semibold text-gray-900">{formattedDate}</h1>
-                <p className="text-sm text-gray-500">{formattedTime}</p>
-              </div>
+              {/* Add search bar or other controls here */}
             </div>
-            <div className="ml-4 flex items-center space-x-4">
-              {/* Notification bell */}
+            <div className="ml-4 flex items-center md:ml-6 space-x-4">
+              <button className="p-1 rounded-full text-gray-400 hover:text-gray-500">
+                <span className="sr-only">View notifications</span>
+                <BellIcon className="h-6 w-6" />
+              </button>
+
+              {/* Profile dropdown */}
               <div className="relative">
-                <button className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" />
-                  {notifications > 0 && (
-                    <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-                  )}
+                <button
+                  onClick={logout}
+                  className="btn-secondary text-sm"
+                >
+                  Sign out
                 </button>
               </div>
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Main content area */}
         <main className="flex-1">
@@ -302,5 +315,5 @@ export default function DashboardLayout({ children }) {
         </main>
       </div>
     </div>
-  );
+  )
 }

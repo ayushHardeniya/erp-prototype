@@ -7,6 +7,10 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 // Layout
 import DashboardLayout from './layouts/dashboard/DashboardLayout';
 
+// Auth Components
+import LoginForm from './components/auth/LoginForm';
+import RegisterForm from './components/auth/RegisterForm';
+
 // Pages
 import DashboardPage from './pages/DashboardPage';
 import StudentsPage from './pages/StudentsPage';
@@ -28,6 +32,16 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path='/' element={<LandingPage />} />
+          <Route path='/login' element={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+              <LoginForm />
+            </div>
+          } />
+          <Route path='/register' element={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+              <RegisterForm />
+            </div>
+          } />
           <Route 
             path='/dashboard' 
             element={
